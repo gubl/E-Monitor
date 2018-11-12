@@ -1,0 +1,231 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Konfiguration Einsatzmonitor">
+    <meta name="author" content="Gabriel Braun">
+    <title>Einsatzmonitor</title>
+    <!-- Bootstrap core CSS -->
+    <link href="./node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="./css/form-validation.css" rel="stylesheet">
+  </head>
+
+  <body class="bg-light">
+    <div class="container">
+      <div class="py-5 text-center">
+        <div class="col">
+        </div>
+        <div class="col">
+        <img class="d-block mx-auto mb-4" src="./res/icon.png" alt="" width="212" height="212">
+        <h2>Einsatzmonitor</h2>
+        <p class="lead" id="txt_loading">Lade Daten</p>
+        <p class="lead" id="txt_config">Konfigurieren</p>
+        <div class="alert mx-auto d-none" id="txt_error" role="alert">
+          <span id="error_msg"></span>
+        </div>
+      </div>
+      <div class="col">
+      </div>
+      </div>
+      <div class="row d-none" id="conf">
+        <div class="col">
+        </div>
+        <div class="col">
+          <form class="needs-validation" id="loginForm" novalidate>
+            <div class="mb-3">
+              <label for="username">Kundennummer:</label>
+              <input type="text" class="form-control needs-validation" id="customerId" required>
+            </div>
+            <div class="mb-3">
+              <label for="email">Nutzername:</label>
+              <input type="text" class="form-control needs-validation" id="username" required>
+            </div>
+            <div class="mb-3">
+              <label for="address">Passwort:</label>
+              <input type="password" class="form-control needs-validation" id="password" required>
+            </div>
+            <hr class="mb-4">
+            <button class="btn btn-primary btn-lg btn-block" type="submit" id="check">Monitor starten</button>
+          </form>
+        </div>
+        <div class="col">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+        </div>
+        <div class="col">
+          <div class="progress" id="loader">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+          </div>
+        </div>
+        <div class="col">
+        </div>
+      </div>
+      <footer class="my-5 pt-5 text-muted text-center text-small">
+        <p class="mb-1">&copy; 2018 Hallo</p>
+        <ul class="list-inline">
+          <li class="list-inline-item"><a href="#">Support</a></li>
+        </ul>
+      </footer>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <script src="./node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script>
+      const setLoad = function() {
+        $("#loader").removeClass('d-none');
+        $("#txt_loading").removeClass('d-none');
+        $("#txt_config").addClass('d-none');
+        $("#conf").addClass('d-none');
+        $("txt_error").addClass('d-none');
+      };
+
+      const setConf = function(error, msg) {
+        if(error) {
+          $("#error_msg").text(msg);
+          $("#txt_error").addClass('alert-danger');
+          $("#txt_error").removeClass('d-none');
+        }
+        else {
+          $("txt_error").addClass('d-none');
+          $("#txt_error").removeClass('alert-danger');
+        }
+        $("#loader").addClass('d-none');
+        $("#txt_loading").addClass('d-none');
+        $("#txt_config").removeClass('d-none');
+        $("#conf").removeClass('d-none');
+      };
+
+      const setError = function(error, msg) {
+        if(error) {
+          $("#error_msg").text(msg);
+          $("#txt_error").addClass('alert-danger');
+          $("#txt_error").removeClass('d-none');
+        }
+        else {
+          $("txt_error").addClass('d-none');
+          $("#txt_error").removeClass('alert-danger');
+        }
+      };
+
+      const rmError = function() {
+        $("#txt_error").addClass('d-none');
+        $("#error_msg").text("");
+      };
+
+      const startSession = function(sessionId) {
+        window.location.replace("https://dashboard.blaulichtsms.net/#/login?token="+sessionId);
+      }
+
+      window.onload = function() {
+        setLoad();
+        $.get("login", function(data, status, xhr){
+            error = false;
+            if(status == "success") {
+              if(data.res) {
+                startSession(data.sessionId);
+                console.log(data);
+              }
+              else {
+                if(data.error == "NO_CONFIG") {
+                  console.log(data);
+                  setConf(false, "");
+                }
+                else if(data.error == "MISSING_CREDENTIALS") {
+                  setConf(true, "Bitte füllen Sie alle Felder aus.");
+                  console.log(data);
+                }
+                else if(data.error == "INVALID_CREDENTIALS") {
+                  setConf(true, "Die Anmeldung mit den angegebenen Daten funktionier nicht. Bitte prüfen Sie die Anmededaten.");
+                  console.log(data);
+                }
+                else {
+                  setConf(true, "Unbekannter Fehler bei der Anmeldung, bitte melden Sie sich erneut an oder versuchen Sie den Monitor erneut zu starten.");
+                  console.log(data);
+                }
+              }
+            }
+            else {
+              setError(true, "Keine Verbindung mit der Datenbank. Bitte starten Sie die Box neu.");
+            }
+        });
+      };
+
+      (function() {
+        'use strict';
+
+        const startCheck = function() {
+          console.log("checkCreds");
+          let customerId = $("input#customerId").val();
+          let username = $("input#username").val();
+          let password = $("input#password").val();
+
+          const payload = {
+            "customerId" : customerId,
+            "username" : username,
+            "password" : password
+          };
+
+          $.post("register", payload, function(data, status, xhr){
+              error = false;
+              if(status == "success") {
+                if(data.res) {
+                  startSession(data.sessionId);
+                  console.log(data);
+                }
+                else {
+                  if(data.error == "ERROR_FILE") {
+                    setConf(true, "Keine Verbindung mit der Datenbank. Bitte starten Sie die Box neu.");
+                    console.log(data);
+                  }
+                  else if(data.error == "MISSING_CREDENTIALS") {
+                    setConf(true, "Bitte füllen Sie alle Felder aus.");
+                    console.log(data);
+                  }
+                  else if(data.error == "INVALID_CREDENTIALS") {
+                    setConf(true, "Die Anmeldung mit den angegebenen Daten funktionier nicht. Bitte prüfen Sie die Anmededaten.");
+                    console.log(data);
+                  }
+                  else {
+                    setConf(true, "Unbekannter Fehler bei der Anmeldung, bitte melden Sie sich erneut an oder versuchen Sie den Monitor erneut zu starten.");
+                    console.log(data);
+                  }
+                }
+              }
+              else {
+                setError(true, "Keine Verbindung mit der Datenbank. Bitte starten Sie die Box neu.");
+              }
+          });
+        };
+
+        window.addEventListener('load', function() {
+          var forms = document.getElementsByClassName('needs-validation');
+          var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+              event.preventDefault();
+              let valid = true;
+              if (form.checkValidity() === false) {
+                valid = false;
+                event.stopPropagation();
+              }
+              if(valid) {
+                rmError();
+                startCheck();
+              }
+              else {
+                setError(true, "Bitte füllen Sie alle Felder aus.");
+              }
+              form.classList.add('was-validated');
+            }, false);
+          });
+        }, false);
+      })();
+    </script>
+  </body>
+</html>
