@@ -1,11 +1,12 @@
 
 <!doctype html>
-<html lang="en">
+<html lang="de">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Konfiguration Einsatzmonitor">
     <meta name="author" content="Gabriel Braun">
+    <meta name="google" content="notranslate">
     <title>Einsatzmonitor</title>
     <!-- Bootstrap core CSS -->
     <link href="./node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -121,6 +122,8 @@
 
       const startSession = function(sessionId) {
         window.location.replace("https://dashboard.blaulichtsms.net/#/login?token="+sessionId);
+        //window.open("https://dashboard.blaulichtsms.net/#/login?token="+sessionId, "_blank");
+        //window.open("monitor.html?token="+sessionId, "_self");
       }
 
       window.onload = function() {

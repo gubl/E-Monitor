@@ -1,0 +1,76 @@
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Konfiguration Einsatzmonitor">
+    <meta name="author" content="Gabriel Braun">
+    <meta name="google" content="notranslate">
+    <title>Einsatzmonitor</title>
+    <!-- Bootstrap core CSS -->
+    <link href="./node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="./css/monitor.css" rel="stylesheet">
+  </head>
+
+  <body class="bg-light">
+    <div class="wrapper" id="wrapper">
+      <iframe class="fullscreen" name="monitor"></iframe>
+    </div>
+    <div class="footer-wrapper" id="connection">
+      <div class="footer" id="footer_content">
+        Kein Internet!! Starte neu.
+      </div>
+    </div>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <script src="./node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+    <script>
+
+
+
+      window.onload = function() {
+        
+        var fooopen = true;
+
+        if(fooopen === false) {
+    			if(Modernizr.csstransitions) {
+            console.log("geht 2");
+            $('#connection').addClass('open');
+    			} else {
+    				$('#connection').animate({ height: '30px' });
+    			}
+    			fooopen = true;
+    		} else {
+    			if(Modernizr.csstransitions) {
+            console.log("geht 3");
+    				$('#connection').removeClass('open');
+    			} else {
+    				$('#connection').animate({ height: '0px' });
+    			}
+    			fooopen = false;
+    		}
+
+
+        var url = new URL(window.location.href);
+        var token = url.searchParams.get("token");
+        if(token != null) {
+          window.open("https://dashboard.blaulichtsms.net/#/login", "monitor");
+        }
+        else {
+          window.history.back();
+        }
+      };
+
+
+
+
+      console.log("geht weiter");
+    </script>
+  </body>
+</html>

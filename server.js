@@ -3,8 +3,12 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const fs = require('fs');
 const request = require('request');
+const connection = require('./connection.js');
+
+
 
 const API_URL = "https://api.blaulichtsms.net/blaulicht";
+//const API_URL = "http://127.0.0.1:3000/blau/login";
 
 const app = express();
 
@@ -122,4 +126,8 @@ app.post('/register',function(req,res){
     });
 });
 
+
+
+
+console.log('###!### App listen on localhost:4000');
 app.listen(4000, 'localhost');

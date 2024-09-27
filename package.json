@@ -1,10 +1,10 @@
 {
   "name": "einsatzmonitor",
   "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
+  "description": "Einsatzmonitor Auto Login",
+  "main": "start.js",
   "scripts": {
-    "test": "node server.js"
+    "test": "node start.js"
   },
   "author": "",
   "license": "ISC",
@@ -13,7 +13,10 @@
     "bootstrap": "^4.1.3",
     "cors": "^2.8.5",
     "express": "^4.16.4",
+    "internet-available": "^1.0.0",
+    "modernizr": "^3.7.1",
     "jquery": "^3.3.1",
+    "nodemon": "^1.18.9",
     "popper": "^1.0.1",
     "popper.js": "^1.14.5",
     "request": "^2.88.0"
