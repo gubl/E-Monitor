@@ -8,4 +8,4 @@ done
 cd "$(dirname "$0")"
 sudo node start.js
 sleep 3
-sudo python startx.py
+sudo node startx.js
