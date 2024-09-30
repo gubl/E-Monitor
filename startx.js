@@ -1,13 +1,16 @@
-const { exec } = require('child_process');
+const { spawn } = require( 'child_process' );
 
+const ls = spawn( 'startx', [ '--', '-nocursor' ] );
 
-exec('startx -- -nocursor', (err, stdout, stderr) => {
-  if (err) {
-    // node couldn't execute the command
-    return;
-  }
+ls.stdout.on( 'data', ( data ) => {
+    console.log( `stdout: ${ data }` );
+} );
 
-  // the *entire* stdout and stderr (buffered)
-  console.log(`stdout: ${stdout}`);
-  console.log(`stderr: ${stderr}`);
-});
+ls.stderr.on( 'data', ( data ) => {
+    console.log( `stderr: ${ data }` );
+} );
+
+ls.on( 'close', ( code ) => {
+    console.log( `child process exited with code ${ code }` );
+} );
+
