@@ -1,11 +1,11 @@
 #!/bin/sh
-# launsher.sh
+# launcher.sh
 
 while ! ping -c 1 -W 1 8.8.8.8; do
 	echo "Wainting for connection..."
 	sleep 1
 done
-cd /
-cd /home/pi/einsatzmonitor
+cd "$(dirname "$0")"
 sudo node start.js
-cd /
+sleep 3
+sudo python startx.py
