@@ -8,8 +8,8 @@ done
 echo "Online..."
 cd "$(dirname "$0")"
 echo "changed Dir"
-sudo node start.js
+npm start
 echo "started node backend server"
 sleep 3
-sudo node startx.js
+#sudo node startx.js
 echo "started XServer"
