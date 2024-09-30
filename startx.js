@@ -1,5 +1,7 @@
 const { spawn } = require( 'child_process' );
 
+console.log('###!### Starting XServer');
+
 const ls = spawn( 'startx', [ '--', '-nocursor' ] );
 
 ls.stdout.on( 'data', ( data ) => {
