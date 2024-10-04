@@ -1,7 +1,7 @@
 {
   "isSet": true,
-  "useCec": true,
-  "useBtn": true,
+  "useCec": false,
+  "useBtn": false,
   "useInfos": false,
   "data": {
     "username": "einsatzmonitor123",
@@ -14,7 +14,7 @@
   },
   "displayCec": {
     "cecAddress": 0,
-    "alarmDelta": 18000000,
+    "alarmDelta": 7200000,
     "requestInterval": 30000,
   }
 }
