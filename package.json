@@ -1,25 +1,20 @@
 {
-  "name": "einsatzmonitor",
+  "name": "E-Monitor",
   "version": "1.0.0",
-  "description": "Einsatzmonitor Auto Login",
+  "description": "Einsatzmonitor",
   "main": "start.js",
   "scripts": {
-    "test": "node start.js",
-    "start": "pm2 start start.js && pm2 start startx.js"
+    "start": "pm2 start server.js"
   },
-  "author": "",
+  "author": "Gabriel Braun",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.3",
     "bootstrap": "^4.6.2",
     "cors": "^2.8.5",
     "express": "^4.21.0",
-    "internet-available": "^1.0.0",
     "jquery": "^3.7.1",
-    "modernizr": "^3.13.1",
-    "nodemon": "^1.19.4",
-    "popper": "^1.0.1",
-    "popper.js": "^1.16.1",
+    "onoff": "^6.0.3",
     "request": "^2.88.2"
   }
 }

@@ -1,0 +1,20 @@
+{
+  "isSet": true,
+  "useCec": true,
+  "useBtn": true,
+  "useInfos": false,
+  "data": {
+    "username": "einsatzmonitor123",
+    "password": "1234556",
+    "customerId": "123123"
+  },
+  "btn": {
+    "btnGpioPin": 517,
+    "btnDelay": 7200000
+  },
+  "displayCec": {
+    "cecAddress": 0,
+    "alarmDelta": 18000000,
+    "requestInterval": 30000,
+  }
+}
