@@ -37,7 +37,7 @@ let configData = {
 // Config Daten ENDE
 
 // Taster Definition
-const button = null;
+let button = null;
 
 // BlaulichtSMS API URL
 const API_URL = "https://api.blaulichtsms.net/blaulicht";
