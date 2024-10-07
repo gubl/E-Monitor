@@ -26,12 +26,12 @@ let configData = {
   },
   "btn": {
     "btnGpioPin": 0,
-    "btnDelay": 0
+    "btnDelay": 999999
   },
   "displayCec": {
     "cecAddress": "0",
-    "alarmDelta": 0,
-    "requestInterval": 0,
+    "alarmDelta": 999999,
+    "requestInterval": 30000,
   }
 }
 // Config Daten ENDE
@@ -70,11 +70,7 @@ function writeConfig() {
     fs.writeFileSync('/home/pi/E-Monitor/config.json', dataJSON);
   }
   catch (e) {
-    response = {
-      "res": false,
-      "sessionId": null,
-      "error": "ERROR_FILE"
-    }
+    console.log(e);
   }
 }
 //Write Config data ENDE
@@ -100,6 +96,10 @@ function initTaster() {
 
 // Alarm Abfrage-Intervall
 const interval = setInterval(async () => {
+  if(!configData.isSet || !configData.useCec) {
+    clearInterval(interval);
+    return;
+  }
   const alarms = await reqalarms(); // request alarma and inofs
   if(alarms != null) {
     alarms.forEach(function(alarm) {
@@ -115,22 +115,24 @@ const interval = setInterval(async () => {
     });
   }
   else {
-    console.log("No alarms found.");
+    console.log("Login...");
   }
 }, configData.displayCec.requestInterval); // Abfrage Intervall
 // Alarm Abfrage-Intervall ENDE
 
 // Display ein-/ ausschalten
 function display(btn) {
+  if(displayTimeout) {
+    return;
+  }
   //Display on
   const displayON = exec("echo 'on "+ configData.displayCec.cecAddress +"' | cec-client -s -d 1", function(err, stdout, stderr) {
    console.log(stdout);
   });
-  if(displayTimeout) {
-    clearTimeout(displayTimeout);
-  }
+
   displayTimeout = setTimeout(() => {
     //Display standby
+    displayTimeout = null;
     const displayON = exec("echo 'standby "+ configData.displayCec.cecAddress +"' | cec-client -s -d 1", function(err, stdout, stderr) {
       console.log(stdout);
     });
@@ -214,7 +216,7 @@ function login() {
         "error": "NO_CONFIG"
       };
       console.log("No config...");
-      resolve(response);
+      return response;
     }
 }
 // Login Funktioon ENDE
@@ -269,7 +271,9 @@ app.post('/register',function(req,res){
 
 // Timer Abbrechen beim Beenden des Scripts
 app.on("SIGINT", () => {
-    clearInterval(interval);
+    if(interval) {
+        clearInterval(interval);
+    }
     if(displayTimeout) {
         clearTimeout(displayTimeout);
     }
