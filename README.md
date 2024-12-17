@@ -59,7 +59,7 @@ onoff, wenn der Display über CEC gesteuert werden soll:
 npm install onoff
 ```
 
-## Den Pi Einrichten
+## Den Pi einrichten
 
 Als erstes müssen wir einen Auto-Login einrichten, dafür verwenden wir den Benutzer pi.
 In der Datei:
@@ -114,7 +114,7 @@ Nach einem Neustart sollte der Pi nach dem automatischen Login zuerstet überpr�
 Um den Browser zu schließen und zurück zur Console zu kommen einfach `Alt+F4` drücken.
 
 
-## Benutzerdaten Konfigurieren
+## Benutzerdaten konfigurieren
 
 Im Projektordner `E-Monitor` ist eine config.json in der die Logindaten und die Parameter für die Display Standby Funktion hinterlegt:
 
@@ -226,7 +226,7 @@ https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#schematics
 
 In den Schematics Dateien ist der GPIO Header abgebildet.
 
-Der Taster wird an den GPIO Eingangspin über einem 1k Ohm Wiederstand und an Masse mit einem 10k Ohm WIederstand angeschlossen. Der andere Kontakt des Schließers wird an 3.3V angeschlossen.
+Der Taster wird an den GPIO Eingangspin über einem 1k Ohm Widerstand und an Masse mit einem 10k Ohm Widerstand angeschlossen. Der andere Kontakt des Schließers wird an 3.3V angeschlossen.
 
 
 
